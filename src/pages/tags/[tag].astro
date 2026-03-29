@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const problems = await getCollection("problems");
+  const tags = [...new Set(problems.flatMap((p) => p.data.topics))];
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { tag }
+  }));
+}
+
+const { tag } = Astro.props;
+const problems = await getCollection("problems");
+const filtered = problems.filter((p) => p.data.topics.includes(tag));
+---
+
+<BaseLayout title={`${tag} | My Notes`}>
+  <section class="card">
+    <h2>Tag: {tag}</h2>
+    <ul>
+      {filtered.map((item) => (
+        <li>
+          <a href={`/problems/${item.data.slug}`}>
+            {item.data.leetcodeId}. {item.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

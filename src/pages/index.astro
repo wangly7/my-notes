@@ -1,11 +1,48 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const problems = await getCollection("problems");
+const interviewNotes = await getCollection("interviewNotes");
+const projects = await getCollection("projects");
+const concepts = await getCollection("concepts");
+const snippets = await getCollection("snippets");
+
+const latestProblems = [...problems]
+  .sort((a, b) => new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime())
+  .slice(0, 5);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Home | My Notes">
+  <section class="card">
+    <h2>Overview</h2>
+    <p>Total problems: {problems.length}</p>
+    <p>Interview notes: {interviewNotes.length}</p>
+    <p>Projects: {projects.length}</p>
+    <p>Concept notes: {concepts.length}</p>
+    <p>Snippets: {snippets.length}</p>
+  </section>
+
+  <section class="card">
+    <h2>Recently added problems</h2>
+    <ul>
+      {latestProblems.map((item) => (
+        <li>
+          <a href={`/problems/${item.id}`}>{item.data.title}</a>
+          <span class="meta"> · {item.data.difficulty}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Content Areas</h2>
+    <ul>
+      <li><a href="/problems">Problems</a></li>
+      <li><a href="/interview">Interview Notes</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/concepts">Concepts</a></li>
+      <li><a href="/snippets">Snippets</a></li>
+    </ul>
+  </section>
+</BaseLayout>

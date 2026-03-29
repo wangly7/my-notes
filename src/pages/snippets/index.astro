@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const snippets = await getCollection("snippets");
+
+const sorted = [...snippets].sort((a, b) => {
+  return new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime();
+});
+---
+
+<BaseLayout title="Snippets | My Notes">
+  <section class="card">
+    <h2>Snippets</h2>
+
+    {sorted.map((item) => (
+      <article style="padding: 14px 0; border-bottom: 1px solid var(--border);">
+        <h3 style="margin: 0 0 6px 0;">
+          <a href={`/snippets/${item.id}`}>{item.data.title}</a>
+        </h3>
+
+        <div class="meta">
+          {item.data.language}
+        </div>
+
+        {item.data.summary && (
+          <p style="margin: 10px 0;">{item.data.summary}</p>
+        )}
+
+        {item.data.tags?.length > 0 && (
+          <div style="margin-top: 8px;">
+            {item.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </article>
+    ))}
+  </section>
+</BaseLayout>

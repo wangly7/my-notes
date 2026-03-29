@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+
+const sorted = [...projects].sort((a, b) => {
+  return new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime();
+});
+---
+
+<BaseLayout title="Projects | My Notes">
+  <section class="card">
+    <h2>Projects</h2>
+
+    {sorted.map((item) => (
+      <article style="padding: 14px 0; border-bottom: 1px solid var(--border);">
+        <h3 style="margin: 0 0 6px 0;">
+          <a href={`/projects/${item.id}`}>{item.data.title}</a>
+        </h3>
+
+        <div class="meta">
+          {item.data.status}
+          {item.data.role ? ` · ${item.data.role}` : ""}
+        </div>
+
+        {item.data.summary && (
+          <p style="margin: 10px 0;">{item.data.summary}</p>
+        )}
+
+        {item.data.tags?.length > 0 && (
+          <div style="margin-top: 8px;">
+            {item.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </article>
+    ))}
+  </section>
+</BaseLayout>

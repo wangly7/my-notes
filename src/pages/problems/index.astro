@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const problems = await getCollection("problems");
+const sorted = [...problems].sort((a, b) => a.data.leetcodeId - b.data.leetcodeId);
+---
+
+<BaseLayout title="Problems | My Notes">
+  <section class="card">
+    <h2>All Problems</h2>
+
+    {sorted.map((item) => (
+      <article style="padding: 14px 0; border-bottom: 1px solid var(--border);">
+        <h3 style="margin: 0 0 6px 0;">
+          <a href={`/problems/${item.id}`}>
+            {item.data.leetcodeId}. {item.data.title}
+          </a>
+        </h3>
+        <div class="meta">
+          {item.data.difficulty} · {item.data.status}
+        </div>
+        <div style="margin-top: 8px;">
+          {item.data.topics.map((tag) => (
+            <a class="tag" href={`/tags/${encodeURIComponent(tag)}`}>{tag}</a>
+          ))}
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
