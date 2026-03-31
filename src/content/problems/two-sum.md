@@ -30,8 +30,33 @@ For each current value `x`:
 - if that value already exists in the map, return the pair
 - otherwise store the current value and its index
 
-## Python template
+## Interview Statement:
+I'd solve this problem using a hash map in one pass.
 
+As I iterate the array, I check whether the current number already exists as a key in the map. In this approach, the key represents the complement I'm waiting for, and the value store the index of the number that needs it. If the current number matches a key, I can immediately return the stored index and the current index.
+
+## Solution
+### c++
+
+```c++
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        std::unordered_map<int, int> map;
+        for (int i = 0; i < nums.size(); i++) {
+            auto iter = map.find(nums[i]);
+            if (iter== map.end()) {
+                map.insert(pair(target - nums[i], i));
+            }else{
+                return {iter->second, i};
+            }
+        }
+        return {};
+    }
+};
+```
+
+### python
 ```python
 def twoSum(nums, target):
     seen = {}
@@ -40,3 +65,4 @@ def twoSum(nums, target):
         if need in seen:
             return [seen[need], i]
         seen[x] = i
+```
