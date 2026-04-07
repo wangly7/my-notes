@@ -2,7 +2,7 @@
 title: "Best Time to Buy and Sell Stock"
 leetcodeId: 121
 difficulty: "Easy"
-topics: ["Array", "Dynamic Programming"]
+topics: ["Array", "Dynamic Programming", "Greedy"]
 status: "done"
 summary: "Track the minimum price so far and compute the maximum profit in one pass."
 createdAt: "2026-03-31"
@@ -31,7 +31,7 @@ Track the minimum price so far and compute profit at each step.
 At each day, calculate the profit if we sell today, and update the maximum profit.
 
 ## Interview Statement:
-I'd solve this problem in one pass.
+I'd solve this problem using greedy approach.
 
 As I iterate through the array, I keep track of the minimum price seen so far. For each price, I compute the profit if I sell at that day by subtracting the minimum price. I update the maximum profit accordingly. This ensures I always buy before I sell and get the best possible result.
 
