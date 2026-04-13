@@ -26,10 +26,13 @@ Use dynamic programming (Kadane's algorithm).
 
 At each position, decide whether to extend the previous subarray or start a new one.
 
-## Interview Statement:
-I'd solve this problem using Kadane's algorithm.
+- Time complexity: O(n)
+- Space complexity: O(1)
 
-As I iterate through the array, I keep track of the maximum subarray sum ending at the current position. For each element, I decide whether to continue the previous subarray or start a new one from the current element. I also maintain a global maximum to store the best result seen so far.
+## Interview Statement:
+I'd solve this problem using dynamic programming.
+
+As I iterate through the array, I keep track of the maximum subarray sum ending at the current position. For each element, I decide whether to continue the previous subarray or start a new one from the current element. I also maintain a global maximum to store the best result seen so far. This way I ensure I have the largest possible sum at the end.
 
 ## Solution
 ### c++
@@ -39,13 +42,11 @@ class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
         int res = nums[0];
-        int total = 0;
+        int currentMax = 0;
 
         for (int i = 0; i < nums.size(); i++) {
-            if (total < 0) total = 0;
-
-            total += nums[i];
-            res = max(res, total);
+            currentMax = max(nums[i], currentMax + nums[i]);
+            res = max(res, currentMax);
         }
         return res;
     }

@@ -30,6 +30,9 @@ Track the minimum price so far and compute profit at each step.
 
 At each day, calculate the profit if we sell today, and update the maximum profit.
 
+- Time complexity: O(n)
+- Space complexity: O(1)
+
 ## Interview Statement:
 I'd solve this problem using greedy approach.
 
