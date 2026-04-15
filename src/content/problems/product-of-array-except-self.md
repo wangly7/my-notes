@@ -27,10 +27,13 @@ Use prefix and suffix products.
 First, compute the product of all elements to the left of each index.  
 Then, multiply it with the product of all elements to the right.
 
+- Time complexity: O(n)
+- Space complexity: O(n)
+
 ## Interview Statement:
 I'd solve this problem using prefix and suffix products.
 
-First, I iterate from left to right and store the product of all elements before each index. Then I iterate from right to left while maintaining a running suffix product, and multiply it into the result array. This way, each position gets the product of all elements except itself, without using division.
+I'd compute a prefix product for each element - everything before it, and a suffix product - everything after it. Then I multiply these two for each index in the result array. This ensures we get the product of all elements except the current one wihout using division.
 
 ## Solution
 ### c++
@@ -39,24 +42,23 @@ First, I iterate from left to right and store the product of all elements before
 class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
-        vector<int> pre(nums.size(), 1);
-        vector<int> suff(nums.size(), 1);
-        vector<int> result;
+        int n = nums.size();
+        vector<int> result(n, 1);
 
-        for (int i = 1; i < nums.size(); i++) {
-            pre[i] *=  pre[i-1] * nums[i-1];
+        int left_product = 1;
+        for (int i = 0; i < n; i++) {
+            result[i] = left_product;
+            left_product *= nums[i];
         }
 
-        for (int i = nums.size()- 2; i >= 0; i--) {
-            suff[i] *= suff[i+1] * nums[i+1];
+        int right_product = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            result[i] *= right_product;
+            right_product *= nums[i];
         }
-        
-        for (int i = 0; i < nums.size(); i++) {
-            result.push_back(pre[i] * suff[i]);
-        }
+
         return result;
     }
-};
 ```
 
 ### python

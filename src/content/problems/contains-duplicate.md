@@ -31,10 +31,13 @@ As we iterate through the array:
 
 If we finish scanning without finding duplicates, return false.
 
+- Time complexity: O(n)
+- Space complexity: O(n)
+
 ## Interview Statement:
 I'd solve this problem using a hash set in one pass.
 
-As I iterate through the array, I check whether the current element has already exists in the hash set. If it has, that means a duplicate exists and I can return true immediately. Otherwise, I insert it into the set and continue. This reduces the time complexity to O(n).
+As I iterate through the array, I check whether the current element has already exists in the hash set. If it has, that means a duplicate exists and I can return true immediately. Otherwise, I insert it into the set and continue.
 
 ## Solution
 ### c++
